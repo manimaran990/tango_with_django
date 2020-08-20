@@ -1,0 +1,45 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}
+todo
+{% endblock %}
+
+{% block body %}
+
+<div class="row mt-4">
+	<div class="col">
+		<div class="float-right">
+			Welcome {{ user.first_name }}
+		</div>
+		<h2>Add Todo</h2>
+
+		<form class="form-inline" action="{% url 'addtodo' %}" method='post'>
+			{% csrf_token %}
+			<input type='text' class="form-control mb-2 mr-sm-2" name='todoitem' required placeholder="todo item"/>
+			<button type="submit" class="btn btn-primary mb-2">Add todo</button>
+		</form>
+
+	</div>
+
+</div>
+
+<div class="row mt-4">
+	<div class="col">
+		<h2> List of todos </h2>
+		{% for item in items %}
+		<ul class="list-group">
+			<li class="list-group-item"> 
+				<div class="float-left">
+					<form class="form-inline" action="{% url 'deletetodo' item.id %}" method='post'>
+						{% csrf_token %}
+						{{ item.task }}
+						<button class="btn" type="submit"><i class="fa fa-trash"></i></button>
+					</form>
+				</div>
+				
+			</li>
+		</ul>
+		{% endfor %}
+		{% endblock %}
+	</div>
+</div>

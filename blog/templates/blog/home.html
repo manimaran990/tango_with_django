@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+home
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+	<div class="float-right">
+		welcome {{ user.first_name }}
+	</div>
+	
+	<h3>Add a blog</h3>
+	
+	<form action="{% url 'add' %}" method='post'>
+		{% csrf_token %}
+		{{ form }}
+		<br>
+		<button class="btn btn-primary">Add Post</button>
+	</form>
+	<br>
+
+	<h3> My posts </h3>
+	<ul class="list-group">
+		{% for blog in blogs %}
+		<li class="list-group-item">
+			<a href="{% url 'viewblog' id=blog.pk %}">{{ blog.title }}</a>
+
+			<form class="form-inline" action="{% url 'deleteblog' id=blog.id %}" method='post'>
+				{% csrf_token %}
+				<button class="btn btn-danger" type="submit">delete</button>
+			</form>
+			<form class="form-inline" action="{% url 'updateblog' id=blog.id %}" method='post'>
+				{% csrf_token %}
+				<button class="btn btn-primary" type="submit">update</button>
+			</form>
+
+			
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+
+{% endblock %}
